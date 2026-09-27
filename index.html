@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitJourney - Your Gym Journey Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-dumbbell"></i>
+            <span>FitJourney</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home" class="active">Home</a></li>
+            <li><a href="#dashboard">Dashboard</a></li>
+            <li><a href="#workouts">Workouts</a></li>
+            <li><a href="#progress">Progress</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#goals">Goals</a></li>
+        </ul>
+        <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Your Journey,<br><span class="gradient-text">Your Transformation</span></h1>
+            <p class="hero-subtitle">Track your gym journey, celebrate milestones, and become the best version of yourself.</p>
+            <div class="hero-buttons">
+                <a href="#dashboard" class="btn btn-primary">Start Tracking</a>
+                <a href="#goals" class="btn btn-outline">Set Goals</a>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <span class="stat-number" id="totalWorkouts">0</span>
+                    <span class="stat-label">Workouts</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="stat-number" id="totalDays">0</span>
+                    <span class="stat-label">Days Trained</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="stat-number" id="currentStreak">0</span>
+                    <span class="stat-label">Day Streak</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="dashboard">
+        <div class="container">
+            <h2 class="section-title">Your <span class="gradient-text">Dashboard</span></h2>
+            <div class="dashboard-grid">
+                <div class="card dashboard-card">
+                    <div class="card-icon"><i class="fas fa-chart-bar"></i></div>
+                    <h3>Weekly Progress</h3>
+                    <canvas id="weeklyChart" width="300" height="150"></canvas>
+                </div>
+                <div class="card dashboard-card">
+                    <div class="card-icon"><i class="fas fa-clock"></i></div>
+                    <h3>Training Hours</h3>
+                    <p class="big-number" id="totalHours">0</p>
+                    <p>hours trained</p>
+                </div>
+                <div class="card dashboard-card">
+                    <div class="card-icon"><i class="fas fa-fire"></i></div>
+                    <h3>Active Streak</h3>
+                    <p class="big-number" id="streakCount">0</p>
+                    <p>consecutive days</p>
+                </div>
+                <div class="card dashboard-card">
+                    <div class="card-icon"><i class="fas fa-bullseye"></i></div>
+                    <h3>Goal Completion</h3>
+                    <div class="progress-ring">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="ring-bg" cx="50" cy="50" r="45"/>
+                            <circle class="ring-fill" id="goalRing" cx="50" cy="50" r="45"/>
+                        </svg>
+                        <span class="ring-text" id="goalPercent">0%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card recent-card">
+                <h3><i class="fas fa-list-check"></i> Recent Workouts</h3>
+                <div id="recentWorkoutsList" class="recent-list">
+                    <p class="empty-state">No workouts logged yet. <a href="#workouts" class="link">Start your first workout!</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section dark-section" id="workouts">
+        <div class="container">
+            <h2 class="section-title">Log Your <span class="gradient-text">Workout</span></h2>
+            <div class="workout-layout">
+                <div class="card">
+                    <h3><i class="fas fa-clipboard-list"></i> Quick Log</h3>
+                    <form id="workoutForm">
+                        <div class="form-group">
+                            <label>Date</label>
+                            <input type="date" id="workoutDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Workout Type</label>
+                            <select id="workoutType" required>
+                                <option value="">Select type...</option>
+                                <option value="Chest">Chest</option>
+                                <option value="Back">Back</option>
+                                <option value="Legs">Legs</option>
+                                <option value="Shoulders">Shoulders</option>
+                                <option value="Arms">Arms</option>
+                                <option value="Full Body">Full Body</option>
+                                <option value="Cardio">Cardio</option>
+                                <option value="HIIT">HIIT</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Duration (minutes)</label>
+                            <input type="number" id="workoutDuration" min="5" max="300" placeholder="e.g. 60" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Intensity</label>
+                            <div class="intensity-selector">
+                                <button type="button" class="intensity-btn" data-level="Low">Low</button>
+                                <button type="button" class="intensity-btn active" data-level="Medium">Medium</button>
+                                <button type="button" class="intensity-btn" data-level="High">High</button>
+                                <button type="button" class="intensity-btn" data-level="Extreme">Extreme</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Exercises (comma separated)</label>
+                            <input type="text" id="workoutExercises" placeholder="e.g. Bench Press, Squat, Deadlift">
+                        </div>
+                        <div class="form-group">
+                            <label>Notes</label>
+                            <textarea id="workoutNotes" rows="3" placeholder="How did it go?"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <i class="fas fa-plus"></i> Log Workout
+                        </button>
+                    </form>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-list"></i> Workout History</h3>
+                    <div id="workoutHistory" class="workout-history">
+                        <p class="empty-state">No workouts logged yet.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="progress">
+        <div class="container">
+            <h2 class="section-title">Track Your <span class="gradient-text">Progress</span></h2>
+            <div class="progress-grid">
+                <div class="card">
+                    <h3><i class="fas fa-weight-scale"></i> Body Weight</h3>
+                    <div class="form-inline">
+                        <input type="number" id="weightInput" placeholder="Weight (kg)" step="0.1">
+                        <input type="date" id="weightDate">
+                        <button class="btn btn-primary" id="addWeightBtn"><i class="fas fa-plus"></i></button>
+                    </div>
+                    <div id="weightHistory" class="weight-history"></div>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-ruler"></i> Body Measurements</h3>
+                    <div class="measurements-form">
+                        <div class="form-group">
+                            <label>Chest (cm)</label>
+                            <input type="number" id="chestMeasure" step="0.1" placeholder="cm">
+                        </div>
+                        <div class="form-group">
+                            <label>Arms (cm)</label>
+                            <input type="number" id="armsMeasure" step="0.1" placeholder="cm">
+                        </div>
+                        <div class="form-group">
+                            <label>Waist (cm)</label>
+                            <input type="number" id="waistMeasure" step="0.1" placeholder="cm">
+                        </div>
+                        <div class="form-group">
+                            <label>Legs (cm)</label>
+                            <input type="number" id="legsMeasure" step="0.1" placeholder="cm">
+                        </div>
+                        <button class="btn btn-primary" id="addMeasureBtn"><i class="fas fa-ruler-combined"></i> Save Measurements</button>
+                    </div>
+                </div>
+                <div class="card full-width">
+                    <h3><i class="fas fa-chart-area"></i> Weight Progress Chart</h3>
+                    <canvas id="weightChart" width="600" height="250"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section dark-section" id="gallery">
+        <div class="container">
+            <h2 class="section-title">Progress <span class="gradient-text">Gallery</span></h2>
+            <div class="gallery-upload">
+                <div class="upload-area" id="uploadArea">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Drag & drop photos here or click to browse</p>
+                    <input type="file" id="photoInput" accept="image/*" multiple hidden>
+                    <button class="btn btn-outline" id="browseBtn">Browse Photos</button>
+                </div>
+                <div class="gallery-upload-meta">
+                    <div class="form-group">
+                        <label>Photo Type</label>
+                        <select id="photoType">
+                            <option value="Front">Front</option>
+                            <option value="Back">Back</option>
+                            <option value="Side">Side</option>
+                            <option value="Progress">Progress</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Label</label>
+                        <input type="text" id="photoLabel" placeholder="e.g. Week 1 Front">
+                    </div>
+                </div>
+                <button class="btn btn-primary" id="uploadPhotosBtn"><i class="fas fa-upload"></i> Upload Photos</button>
+            </div>
+            <div id="galleryGrid" class="gallery-grid">
+                <p class="empty-state">No photos uploaded yet. Share your transformation!</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="goals">
+        <div class="container">
+            <h2 class="section-title">Your <span class="gradient-text">Goals</span></h2>
+            <div class="goals-layout">
+                <div class="card">
+                    <h3><i class="fas fa-bullseye"></i> Set Your Goals</h3>
+                    <form id="goalForm">
+                        <div class="form-group">
+                            <label>Goal Type</label>
+                            <select id="goalType" required>
+                                <option value="Weight">Lose Weight</option>
+                                <option value="Muscle">Gain Muscle</option>
+                                <option value="Strength">Increase Strength</option>
+                                <option value="Endurance">Improve Endurance</option>
+                                <option value="General">General Fitness</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Target Weight (kg)</label>
+                            <input type="number" id="targetWeight" step="0.1" placeholder="e.g. 75">
+                        </div>
+                        <div class="form-group">
+                            <label>Current Weight (kg)</label>
+                            <input type="number" id="currentWeightGoal" step="0.1" placeholder="e.g. 80">
+                        </div>
+                        <div class="form-group">
+                            <label>Target Date</label>
+                            <input type="date" id="targetDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="goalDescription" rows="2" placeholder="Describe your goal..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <i class="fas fa-bullseye"></i> Set Goal
+                        </button>
+                    </form>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-trophy"></i> Active Goals</h3>
+                    <div id="activeGoals" class="goals-list">
+                        <p class="empty-state">No goals set yet. Start working toward your dreams!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section dark-section" id="timeline">
+        <div class="container">
+            <h2 class="section-title">Your <span class="gradient-text">Timeline</span></h2>
+            <div id="timelineContainer" class="timeline">
+                <p class="empty-state">Start logging workouts to build your journey timeline!</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <i class="fas fa-dumbbell"></i>
+                    <span>FitJourney</span>
+                </div>
+                <p>Your journey to a better you starts today. Every rep counts.</p>
+            </div>
+            <div class="footer-links">
+                <a href="#home"><i class="fas fa-home"></i></a>
+                <a href="#dashboard"><i class="fas fa-chart-line"></i></a>
+                <a href="#workouts"><i class="fas fa-clipboard-list"></i></a>
+                <a href="#progress"><i class="fas fa-chart-area"></i></a>
+                <a href="#gallery"><i class="fas fa-images"></i></a>
+                <a href="#goals"><i class="fas fa-bullseye"></i></a>
+            </div>
+            <p class="copyright">© 2024 FitJourney. Built with 💪</p>
+        </div>
+    </footer>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
